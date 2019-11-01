@@ -1,0 +1,15 @@
+import Vue from 'vue'
+import App from './App.vue'
+import router from './router'
+import 'jquery';
+import 'bootstrap'
+import 'popper.js'
+import './assets/app.scss'
+
+window.$ = window.jQuery = require('jquery');
+Vue.config.productionTip = false
+
+new Vue({
+  router,
+  render: h => h(App)
+}).$mount('#app')
