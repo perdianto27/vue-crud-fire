@@ -11,7 +11,6 @@
   };
   // Initialize Firebase
   const fb = firebase.initializeApp(config);
-
   const db = firebase.firestore();
-  
+
   export {fb,db}
