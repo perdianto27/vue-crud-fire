@@ -4,18 +4,20 @@
         <div class="col-md-3">
           <div class="card">
             <div class="card-body">
-              <h1 class="h3 mb-3 font-weight-normal">Please sign in</h1>
-            <form>
+              <h1 class="h3 mb-3 font-weight-normal">Please Sign in</h1>
+          
               <div class="form-group">
-                  <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp" placeholder="Enter email">
+                  <input type="email" v-model="email" class="form-control" id="exampleInputEmail1" 
+                          placeholder="Enter email" autocomplete="email">
               </div>
               <div class="form-group">
-                  <input type="password" @keyup.enter="login" v-model="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                  <input type="password" @keyup.enter="login" v-model="password" class="form-control" id="exampleInputPassword1" 
+                          placeholder="Password" autocomplete="password">
               </div>
               <div class="form-group">
                   <button class="btn btn-primary" @click="login">Login</button>
               </div>    
-            </form>
+            
           </div>
         </div>
       </div>
@@ -24,8 +26,7 @@
 </template>
 
 <script>
-
-import firebase from '../firebase'
+import {fb,db} from '../firebase'
 export default {
   name: "Login",
   props: {
@@ -40,22 +41,23 @@ export default {
   },
   methods:{
       login(){
+        // console.log(this.password);
         fb.auth().signInWithEmailAndPassword(this.email, this.password)
-          .then(() => {
-          $('#login').modal('hide')
-            this.$router.replace('admin');  
-          })
-          .catch(function(error) {
-              // Handle Errors here.
-              var errorCode = error.code;
-              var errorMessage = error.message;
-              if (errorCode === 'auth/wrong-password') {
-                  alert('Wrong password.');
-              } else {
-                  alert(errorMessage);
-              }
-              console.log(error);
-        });
+                  .then(() => {                    
+                    console.log("Signin successfully!");
+                    this.$router.replace('admin');  
+                  })
+                  .catch(function(error) {
+                      // Handle Errors here.
+                      var errorCode = error.code;
+                      var errorMessage = error.message;
+                      if (errorCode === 'auth/wrong-password') {
+                          alert('Wrong password.');
+                      } else {
+                          alert(errorMessage);
+                      }
+                      console.log(error);
+                  });
       },
       register(){
         fb.auth().createUserWithEmailAndPassword(this.email, this.password)

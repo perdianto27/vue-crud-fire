@@ -4,7 +4,7 @@ import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
 import Overview from '../views/Overview.vue'
 import Login from '../views/Login.vue'
-import {fb} from './firebase'
+import {fb} from '../firebase'
 
 Vue.use(VueRouter)
 
