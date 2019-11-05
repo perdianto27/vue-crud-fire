@@ -55,8 +55,14 @@
                                 <i class="fa fa-chart-line"></i>
                                 <span>Overview</span>
                             </router-link>
-                        </li>                        
-                        <li class="sidebar-dropdown">
+                        </li>
+                        <li>
+                            <router-link to="/admin/earticle">
+                                <i class="fa fa-chart-line"></i>
+                                <span>Earticle</span>
+                            </router-link>
+                        </li>                                                   
+                        <!-- <li class="sidebar-dropdown">
                             <a href="#">
                                 <i class="fa fa-tachometer-alt"></i>
                                 <span class="menu-text">Dashboard</span>
@@ -162,7 +168,7 @@
                                     </li>
                                 </ul>
                             </div>
-                        </li>
+                        </li> -->
                     </ul>
                 </div>
                 <!-- sidebar-menu  -->
@@ -312,7 +318,7 @@
         </nav>
         <!-- page-content  -->
         <main class="page-content">
-            <router-view/>
+            <router-view></router-view>
         </main>
         <!-- page-content" -->
     </div>

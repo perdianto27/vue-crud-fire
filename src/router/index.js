@@ -3,6 +3,7 @@ import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
 import Admin from '../views/Admin.vue'
 import Overview from '../views/Overview.vue'
+import Earticle from '../views/Earticle.vue'
 import Login from '../views/Login.vue'
 import {fb} from '../firebase'
 
@@ -18,11 +19,17 @@ const routes = [
     path: '/admin',
     name: 'admin',
     component: Admin,
+    // meta: { requiresAuth: true },
     children: [
       {
         path: 'overview',
         name: 'overview',
         component: Overview
+      },
+      {
+        path: 'earticle',
+        name: 'earticle',
+        component: Earticle
       }
     ]   
   },
