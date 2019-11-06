@@ -41,6 +41,9 @@
                     <div class="form-group">
                       <input type="text" placeholder="Title" class="form-control" v-model="earticle.judul">
                     </div>
+                    <div class="form-group">
+                      <input type="text" placeholder="Url" class="form-control" v-model="earticle.url">
+                    </div>                    
 
                     <div class="form-group">
                       <vue-editor v-model="earticle.content"></vue-editor>
@@ -64,7 +67,7 @@
                     </div>
 
                     <div class="form-group">
-                      <label for="product_image">Product Images</label>
+                      <label for="product_image">Images</label>
                       <input type="file" @change="uploadImage" class="form-control">
                     </div>
 
@@ -111,14 +114,12 @@ export default {
       earticles: [],
       category: [],
       earticle:{
-        id: "",
         judul: "",
         url: "",
         content: "",
         penulis: "",
         kategori: "",
         created_dttm: "",
-        image: null, 
         images: [],
       },       
       activeItem:null,
@@ -190,7 +191,11 @@ export default {
     },
     addData(){
       db.collection('e-artikel').add(this.earticle);
-      $('#product').modal('hide');
+          Toast.fire({
+            type: 'success',
+            title: 'Product created successfully'
+          })      
+      $('#myModal').modal('hide');
     },
     editData(){
 
