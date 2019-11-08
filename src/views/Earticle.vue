@@ -12,14 +12,39 @@
       </div>
       <hr>
 
-          <v-client-table :data="earticles" :columns="columns" :options="options">
-            <div slot="action" slot-scope="">
-              <router-link class="btn btn-sm btn-success" :to="{name: '', params:{}}">
-                Edit
-              </router-link> ||
-              <button v-on:click.prevent="" type="button" class="btn btn-sm btn-danger">Delete</button>
-            </div>
-          </v-client-table>
+      <div class="table-responsive">
+        
+          <table class="table">
+            <thead>
+              <tr>
+                <th>Judul</th>
+                <th>Penulis</th>
+                <th>Modify</th>
+              </tr>
+            </thead>
+
+            <tbody>
+                <tr v-for="earticle in earticles">
+                  <td>
+                    {{earticle.judul}}
+                  </td>
+
+                  <td>
+                    {{earticle.penulis}}
+                  </td>
+
+                  <td>
+
+                    <button class="btn btn-sm btn-primary " @click="editData(earticle)">Edit</button>&nbsp;
+                    <button class="btn btn-sm btn-danger" @click="deleteData(earticle)">Delete</button>
+                  </td>
+
+                </tr>
+
+
+            </tbody>
+          </table>
+      </div>
 
     </div>
 
@@ -121,7 +146,7 @@ export default {
         kategori: "",
         created_dttm: "",
         images: [],
-      },       
+      },     
       activeItem:null,
       modal: null,
       tag: null,      
@@ -146,30 +171,27 @@ export default {
     deleteImage(img,index){
 
     },
-    addTag(){
-
-    },
     uploadImage(e){
       if(e.target.files[0]){
         
-          let file = e.target.files[0];
-          console.log(e);    
-          var storageRef = fb.storage().ref('earticle/'+ Math.random() + '_'  + file.name);
-    
-          let uploadTask  = storageRef.put(file);
-    
-          uploadTask.on('state_changed', (snapshot) => {
-            
-          }, (error) => {
-            // Handle unsuccessful uploads
-          }, () => {
-            // Handle successful uploads on complete
-            // For instance, get the download URL: https://firebasestorage.googleapis.com/...
-            
-            uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
-              this.earticle.images.push(downloadURL);
-            });
+        let file = e.target.files[0];
+        console.log(e);    
+        var storageRef = fb.storage().ref('earticle/'+ Math.random() + '_'  + file.name);
+  
+        let uploadTask  = storageRef.put(file);
+  
+        uploadTask.on('state_changed', (snapshot) => {
+          
+        }, (error) => {
+          // Handle unsuccessful uploads
+        }, () => {
+          // Handle successful uploads on complete
+          // For instance, get the download URL: https://firebasestorage.googleapis.com/...
+                    
+          uploadTask.snapshot.ref.getDownloadURL().then((downloadURL) => {
+            this.earticle.images.push(downloadURL);
           });
+        });
       }
     },
     addNew(){
@@ -178,13 +200,29 @@ export default {
       $('#myModal').modal('show');
     },
     reset(){
-
+      this.earticle={
+        judul:null,
+        url: null,
+        content: null,
+        penulis: null,
+        kategori: null,
+        created_dttm: null,
+        images: []
+      }
     },
     updateData(){
-
+      db.collection('e-artikel').doc(this.product.id).update(this.product);
+        Toast.fire({
+          type: 'success',
+          title: 'Updated  successfully'
+        })
+      $('#myModal').modal('hide');
     },
-    editData(){
-
+    editData(earticle){
+      this.modal = 'edit';
+      this.earticle = earticle;
+      console.log(earticle);
+      $('#myModal').modal('show');
     },
     deleteData(doc){
 
@@ -196,9 +234,6 @@ export default {
             title: 'Product created successfully'
           })      
       $('#myModal').modal('hide');
-    },
-    editData(){
-
     },
     readCategory(){
       db.collection("artikel-kategori").get().then((querySnapshot)=>{
@@ -224,61 +259,21 @@ export default {
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
-<style scoped lang="scss">
-#app {
-  width: 95%;
-  margin-top: 50px; 
+<style>
+#setting {
+  margin-top: 5px;
+  margin-left: 43px;
 }
 
-.VuePagination {
+.VueTables__search-field label {
+  justify-content: left;
+}
+
+/* td {
   text-align: center;
 }
 
-.vue-title {
+th {
   text-align: center;
-  margin-bottom: 10px;
-}
-
-.vue-pagination-ad {
-  text-align: center;
-}
-
-.glyphicon.glyphicon-eye-open {
-  width: 16px;
-  display: block;
-  margin: 0 auto;
-}
-
-th:nth-child(3) {
-  text-align: center;
-}
-
-.VueTables__child-row-toggler {
-  width: 16px;
-  height: 16px;
-  line-height: 16px;
-  display: block;
-  margin: auto;
-  text-align: center;
-}
-
-.VueTables__child-row-toggler--closed::before {
-  content: "+";
-}
-
-.VueTables__child-row-toggler--open::before {
-  content: "-";
-}
-
-.img-wrapp{
-  position: relative;
-}
-.img-wrapp span.delete-img{
-    position: absolute;
-    top: -14px;
-    left: -2px;
-}
-.img-wrapp span.delete-img:hover{
-  cursor: pointer;
-}
+} */
 </style>
