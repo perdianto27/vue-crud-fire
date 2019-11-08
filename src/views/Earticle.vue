@@ -26,22 +26,16 @@
             <tbody>
                 <tr v-for="earticle in earticles">
                   <td>
-                    {{earticle.judul}}
+                    {{earticle.data().judul}}
                   </td>
-
                   <td>
-                    {{earticle.penulis}}
+                    {{earticle.data().penulis}}
                   </td>
-
                   <td>
-
                     <button class="btn btn-sm btn-primary " @click="editData(earticle)">Edit</button>&nbsp;
-                    <button class="btn btn-sm btn-danger" @click="deleteData(earticle)">Delete</button>
+                    <button class="btn btn-sm btn-danger" @click="deleteData(earticle.id)">Delete</button>
                   </td>
-
                 </tr>
-
-
             </tbody>
           </table>
       </div>
@@ -168,6 +162,13 @@ export default {
     };
   },
   methods:{
+    watcher(){
+      db.collection("e-artikel").get().then((querySnapshot)=>{
+        querySnapshot.forEach((doc)=>{
+          this.earticles.push(doc);
+        });
+      });
+    },
     deleteImage(img,index){
 
     },
@@ -211,21 +212,43 @@ export default {
       }
     },
     updateData(){
-      db.collection('e-artikel').doc(this.product.id).update(this.product);
+      db.collection('e-artikel').doc(this.activeItem).update(this.earticle);
+      console.log(this.activeItem);
         Toast.fire({
           type: 'success',
           title: 'Updated  successfully'
         })
       $('#myModal').modal('hide');
+      this.watcher();
     },
     editData(earticle){
       this.modal = 'edit';
-      this.earticle = earticle;
-      console.log(earticle);
+      this.earticle = earticle.data();
+      this.activeItem = earticle.id;
+      console.log(this.activeItem);
       $('#myModal').modal('show');
     },
-    deleteData(doc){
-
+    deleteData(earticle){
+      console.log(earticle);
+      Swal.fire({
+        title: 'Are you sure?',
+        text: "You won't be able to revert this!",
+        type: 'warning',
+        showCancelButton: true,
+        confirmButtonColor: '#3085d6',
+        cancelButtonColor: '#d33',
+        confirmButtonText: 'Yes, delete it!'
+      }).then((result) => {
+        if (result.value) {
+          db.collection('e-artikel').doc(earticle).delete()
+          Toast.fire({
+            type: 'success',
+            title: 'Deleted  successfully'
+          })
+        }
+        
+      })
+      this.watcher();
     },
     addData(){
       db.collection('e-artikel').add(this.earticle);
@@ -234,26 +257,25 @@ export default {
             title: 'Product created successfully'
           })      
       $('#myModal').modal('hide');
-    },
-    readCategory(){
+      this.watcher();
+    },  
+    readData(){
+      db.collection("e-artikel").get().then((querySnapshot)=>{
+        querySnapshot.forEach((doc)=>{
+          this.earticles.push(doc);
+        });
+      });
+
       db.collection("artikel-kategori").get().then((querySnapshot)=>{
         querySnapshot.forEach((doc)=>{
           this.category.push(doc.data());
           // console.log(doc.id,doc.data());
         });
-      });
-    },    
-    readData(){
-      db.collection("e-artikel").get().then((querySnapshot)=>{
-        querySnapshot.forEach((doc)=>{
-          this.earticles.push(doc.data());
-        });
-      });
+      });      
     }
   },
   created(){
     this.readData();
-    this.readCategory();
   }  
 }
 </script>
