@@ -1,5 +1,13 @@
 # vue-inspire
 
+<p align="center"><img height="400px" src="https://github.com/perdianto27/vue-crud-fire/blob/master/sc.png"></p>
+
+# Tech:
+
+- Vuejs
+- Firebase firestore
+- Bootstrap
+
 ## Project setup
 ```
 npm install
