@@ -3,7 +3,7 @@
     <div class="container">
       <div class="row">
         <div class="col-10 text-left">
-          <h3>Earticle Page</h3>
+          <h3>Earticle</h3>
         </div>
         <div class="col-2 text-right">
           <button @click="addNew" class="btn btn-sm btn-primary float-right">Add Article</button>
@@ -143,22 +143,7 @@ export default {
       },     
       activeItem:null,
       modal: null,
-      tag: null,      
-      columns: [
-        "judul",
-        "penulis",
-        "action",
-      ],
-      options: {
-        perPage: 5,
-        perPageValues: [5, 10, 15, 20, 25],
-        headings:{
-          judul: "Title",
-          penulis: "Writer",
-        },
-        sortable: ["judul", "penulis"],
-        filterable: ["judul", "penulis"]
-      }
+      tag: null     
     };
   },
   methods:{
